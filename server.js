@@ -21,6 +21,9 @@ app.use(express.static(path.join(__dirname, 'client')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
+// Angular DIST output folder
+app.use(express.static(path.join(__dirname, './client/dist')));
+
 app.use('/', index);
 app.use('/api', classes);
 
