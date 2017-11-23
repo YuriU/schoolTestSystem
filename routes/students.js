@@ -1,22 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://yuri:password@ds115546.mlab.com:15546/school_test_system', ['classes']);
+var db = mongojs('mongodb://yuri:password@ds115546.mlab.com:15546/school_test_system', ['students']);
 
 // Get classes
-router.get('/classes', function(req, res, next){
-    db.classes.find(function(err, classes) {
+router.get('/students', function(req, res, next){
+    db.students.find(function(err, students) {
         if(err) {
             res.send(err);
         } else {
-            res.json(classes);
+            res.json(students);
         }  
     });
 });
 
 // Get single class
-router.get('/class/:id', function(req, res, next) {
-    db.classes.findOne({_id: mongojs.ObjectId(req.params.id)}, 
+router.get('/student', function(req, res, next) {
+    db.students.findOne({_id: mongojs.ObjectId(req.params.id)}, 
         function(err, cl){
         if(err) {
             res.send(err);
@@ -27,7 +27,7 @@ router.get('/class/:id', function(req, res, next) {
 });
 
 // Save class
-router.post('/class', function(req, res, next) {
+router.post('/student', function(req, res, next) {
     var cl = req.body;
     if(!cl.name){
         res.status(400);
@@ -35,7 +35,7 @@ router.post('/class', function(req, res, next) {
             "error" : "Bad data"
         });
     } else {
-        db.classes.save(cl, function(err, cl){
+        db.students.save(cl, function(err, cl){
             if(err){
                 res.send(err);
             }
@@ -45,8 +45,8 @@ router.post('/class', function(req, res, next) {
 });
 
 // Delete class
-router.delete('/class/:id', function(req, res, next) {
-    db.classes.remove({_id: mongojs.ObjectId(req.params.id)}, 
+router.delete('/student', function(req, res, next) {
+    db.students.remove({_id: mongojs.ObjectId(req.params.id)}, 
         function(err, cl){
         if(err) {
             res.send(err);
@@ -57,11 +57,11 @@ router.delete('/class/:id', function(req, res, next) {
 });
 
 // Update class
-router.put('/class/:id', function(req, res, next) {
+router.put('/student', function(req, res, next) {
     var updClass = req.body;
     updClass._id = mongojs.ObjectId(req.params.id);
     console.log('Put class ' + mongojs.ObjectId(req.params.id));
-    db.classes.update({_id: mongojs.ObjectId(req.params.id)}, updClass, {}, function(err, cl){
+    db.students.update({_id: mongojs.ObjectId(req.params.id)}, updClass, {}, function(err, cl){
         if(err) {
             res.send(err);
         } else {
