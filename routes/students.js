@@ -4,8 +4,9 @@ var mongojs = require('mongojs');
 var db = mongojs('mongodb://yuri:password@ds115546.mlab.com:15546/school_test_system', ['students']);
 
 // Get classes
-router.get('/students', function(req, res, next){
-    db.students.find(function(err, students) {
+router.get('/students/class/:classId', function(req, res, next){
+    var classId = req.params.classId;
+    db.students.find({ "classid": classId }, function(err, students) {
         if(err) {
             res.send(err);
         } else {
@@ -28,14 +29,14 @@ router.get('/student', function(req, res, next) {
 
 // Save class
 router.post('/student', function(req, res, next) {
-    var cl = req.body;
-    if(!cl.name){
+    var student = req.body;
+    if(!student.firstname && !student.lastname){
         res.status(400);
         res.json({
             "error" : "Bad data"
         });
     } else {
-        db.students.save(cl, function(err, cl){
+        db.students.save(student, function(err, cl){
             if(err){
                 res.send(err);
             }
@@ -45,7 +46,7 @@ router.post('/student', function(req, res, next) {
 });
 
 // Delete class
-router.delete('/student', function(req, res, next) {
+router.delete('/student/:id', function(req, res, next) {
     db.students.remove({_id: mongojs.ObjectId(req.params.id)}, 
         function(err, cl){
         if(err) {
@@ -57,11 +58,11 @@ router.delete('/student', function(req, res, next) {
 });
 
 // Update class
-router.put('/student', function(req, res, next) {
-    var updClass = req.body;
-    updClass._id = mongojs.ObjectId(req.params.id);
+router.put('/student/:id', function(req, res, next) {
+    var updStudent = req.body;
+    updStudent._id = mongojs.ObjectId(req.params.id);
     console.log('Put class ' + mongojs.ObjectId(req.params.id));
-    db.students.update({_id: mongojs.ObjectId(req.params.id)}, updClass, {}, function(err, cl){
+    db.students.update({_id: mongojs.ObjectId(req.params.id)}, updStudent, {}, function(err, cl){
         if(err) {
             res.send(err);
         } else {

@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { ClassComponent } from './components/class/class.component';
 import { ClassService } from './services/class.service';
 import { StudentComponent } from './components/student/student.component';
+import { StudentService } from './services/student.service';
 
 const appRoutes: Routes = [
   { path: '', component:ClassComponent},
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ClassService],
+  providers: [ClassService, StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

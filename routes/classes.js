@@ -26,6 +26,7 @@ router.get('/class/:id', function(req, res, next) {
     });
 });
 
+
 // Save class
 router.post('/class', function(req, res, next) {
     var cl = req.body;
