@@ -14,7 +14,6 @@ import { StudentService } from './services/student.service';
 
 const appRoutes: Routes = [
   { path: '', component:ClassComponent},
-  //{ path: 'students', component:StudentComponent}
   { path: 'students/:classId', component:StudentComponent}
 ];
 
